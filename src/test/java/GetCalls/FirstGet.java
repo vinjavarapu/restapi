@@ -16,6 +16,11 @@ public class FirstGet
 
         System.out.println("Second test");
     }
+    @Test
+    public void ThirdDeleteCall(){
+
+        System.out.println("Thrid test call");
+    }
 
 
 
