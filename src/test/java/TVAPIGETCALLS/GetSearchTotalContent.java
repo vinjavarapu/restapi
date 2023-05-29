@@ -6,8 +6,7 @@ import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.baseURI;
-import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.equalTo;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
@@ -17,7 +16,7 @@ public class GetSearchTotalContent {
 
 
 
-    @Test
+    @Test(priority = 1)
     public void GetTVALLSEACHES(){
 
         baseURI="https://api.tvmaze.com/search/shows?q=girls";
@@ -30,7 +29,7 @@ public class GetSearchTotalContent {
                 .statusLine("HTTP/1.1 200 OK");
 
     }
-    @Test
+    @Test(priority = 2)
     public void getResponsebody(){
 
         baseURI="https://api.tvmaze.com/search/shows?q=girls";
@@ -46,7 +45,7 @@ public class GetSearchTotalContent {
 
 
     }
-    @Test
+    @Test(priority = 3)
     public void BadrequestGetCall(){
 
         baseURI="https://api.tvmaze.com/search/show?q=1234";
@@ -61,7 +60,7 @@ public class GetSearchTotalContent {
 
 
     }
-    @Test
+    @Test(priority = 4)
     public void GetPageNotfoundDetails(){
 
         baseURI="https://api.tvmaze.com/search/show?q=1234";
@@ -82,7 +81,6 @@ public class GetSearchTotalContent {
         System.out.println(previous_message);
         assertEquals(previous_message,"Unable to resolve the request: search/show");
 
-
-
     }
+
 }
