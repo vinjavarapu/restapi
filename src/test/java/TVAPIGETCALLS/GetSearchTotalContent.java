@@ -1,6 +1,7 @@
 package TVAPIGETCALLS;
 
 import io.restassured.RestAssured;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import org.testng.annotations.Test;
@@ -41,6 +42,45 @@ public class GetSearchTotalContent {
         System.out.println("My Response body is" + " " + responsebody);
         assertEquals(responsebody.contains("url"),true);
         assertEquals(responsebody.contains("https://www.tvmaze.com/shows/139/girls"),true);
+
+
+
+    }
+    @Test
+    public void BadrequestGetCall(){
+
+        baseURI="https://api.tvmaze.com/search/show?q=1234";
+
+        given()
+                .when()
+                .get(baseURI)
+                .then()
+                .statusCode(404)
+                .statusLine("HTTP/1.1 404 Not Found");
+
+
+
+    }
+    @Test
+    public void GetPageNotfoundDetails(){
+
+        baseURI="https://api.tvmaze.com/search/show?q=1234";
+
+        Response response = given().when().get(baseURI).thenReturn();
+        String resbody = response.getBody().asString();
+        System.out.println("Page not found response body details are " + " " + resbody);
+        JsonPath js = response.jsonPath();
+        String name = js.getString("name");
+        assertEquals(name,"Not Found");
+        String message = js.getString("message");
+        assertEquals(message,"Page not found.");
+        String previous_array = js.getString("previous");
+        System.out.println(previous_array);
+        String prname = js.get("previous.name");
+        System.out.println(prname);
+        String previous_message = js.get("previous.message");
+        System.out.println(previous_message);
+        assertEquals(previous_message,"Unable to resolve the request: search/show");
 
 
 
