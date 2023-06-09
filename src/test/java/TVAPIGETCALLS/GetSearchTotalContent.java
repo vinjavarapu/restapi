@@ -4,6 +4,7 @@ import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.*;
@@ -14,12 +15,17 @@ import static org.testng.AssertJUnit.assertTrue;
 
 public class GetSearchTotalContent {
 
+String url;
+    @BeforeTest
+    public void intiiliaze(){
 
-
+        baseURI="https://api.tvmaze.com/search/shows?q=girls";
+       url = "https://api.tvmaze.com/search/show?q=1234";
+    }
     @Test(priority = 1)
     public void GetTVALLSEACHES(){
 
-        baseURI="https://api.tvmaze.com/search/shows?q=girls";
+
 
         given()
                 .when()
@@ -32,7 +38,7 @@ public class GetSearchTotalContent {
     @Test(priority = 2)
     public void getResponsebody(){
 
-        baseURI="https://api.tvmaze.com/search/shows?q=girls";
+
 
         given().when().get(baseURI).getBody().asString().contains("score");
         given().when().get(baseURI).getBody().asString().contains("id");
@@ -48,11 +54,11 @@ public class GetSearchTotalContent {
     @Test(priority = 3)
     public void BadrequestGetCall(){
 
-        baseURI="https://api.tvmaze.com/search/show?q=1234";
+
 
         given()
                 .when()
-                .get(baseURI)
+                .get(url)
                 .then()
                 .statusCode(404)
                 .statusLine("HTTP/1.1 404 Not Found");
@@ -63,9 +69,9 @@ public class GetSearchTotalContent {
     @Test(priority = 4)
     public void GetPageNotfoundDetails(){
 
-        baseURI="https://api.tvmaze.com/search/show?q=1234";
 
-        Response response = given().when().get(baseURI).thenReturn();
+
+        Response response = given().when().get(url).thenReturn();
         String resbody = response.getBody().asString();
         System.out.println("Page not found response body details are " + " " + resbody);
         JsonPath js = response.jsonPath();
